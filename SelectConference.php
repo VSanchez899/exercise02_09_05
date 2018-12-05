@@ -1,3 +1,7 @@
+
+
+
+//NEW CODE
 <?php
 session_start();
 echo "Session id: " . session_id() . "<br>\n";
@@ -8,21 +12,21 @@ echo "Session id: " . session_id() . "<br>\n";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Conferences</title>
+    <title>Available Opportunities</title>
 </head>
 
 <body>
-    <h1>Client Conferences</h1>
-    <h2>Available Conferences</h2>
+    <h1>College Internship</h1>
+    <h2>Available Opportunities</h2>
     <?php
     
-    // if (isset($_REQUEST['clientID'])) {
-    //     $clientID = $_REQUEST['clientID'];
+    // if (isset($_REQUEST['internID'])) {
+    //     $internID = $_REQUEST['internID'];
     // } else {
-    //     $clientID = -1;
+    //     $internID = -1;
     // }
     // //debug
-    // echo "\$clientID: $clientID\n";
+    // echo "\$internID: $internID\n";
     if (isset($_COOKIE['LastRequestDate'])) {
         $lastRequestDate =
          urldecode($_COOKIE['LastRequestDate']);
@@ -62,22 +66,22 @@ echo "Session id: " . session_id() . "<br>\n";
         else {
         if (mysqli_num_rows($queryResult) == 0) {
             ++$errors;
-            echo "<p>Invalid client ID!</p>\n";
+            echo "<p>Invalid Intern ID!</p>\n";
         }
     }
     }
     if ($errors == 0) {
         $row = mysqli_fetch_assoc($queryResult);
-        $clientName = $row['first'] . " " . $row['last'];  
+        $ClientName = $row['first'] . " " . $row['last'];  
     }
     else {
-        $clientName = "";
+        $ClientName = "";
     }
-    echo "\$clientName: $clientName";
-    $TableName = "assigned_Conferences";
+    echo "\$ClientName: $ClientName";
+    $TableName = "assigned_conferences";
     
     if ($errors == 0) {
-    $SQLstring = "SELECT COUNT(ConferencesID)" . " FROM $TableName" . " WHERE clientID='" . $_SESSION['clientID'] . "'" . " AND dateApproved IS NOT NULL";
+    $SQLstring = "SELECT COUNT(conferenceID)" . " FROM $TableName" . " WHERE clientID='" . $_SESSION['clientID'] . "'" . " AND dateApproved IS NOT NULL";
     $queryResult = mysqli_query($DBConnect, $SQLstring);
         if (mysqli_num_rows($queryResult) > 0) {
         $row = mysqli_fetch_row($queryResult);
@@ -85,7 +89,7 @@ echo "Session id: " . session_id() . "<br>\n";
         mysqli_free_result($queryResult);
     }
     $selectedConferences = array();
-        $SQLstring = "SELECT ConferencesID FROM $TableName" . " WHERE clientID='". $_SESSION['clientID'] . "'";
+        $SQLstring = "SELECT conferenceID FROM $TableName" . " WHERE clientID='". $_SESSION['ClientID'] . "'";
         $queryResult = mysqli_query($DBConnect, $SQLstring);
         if (mysqli_num_rows($queryResult) > 0) {
             while (($row = mysqli_fetch_row($queryResult)) != false) {
@@ -94,7 +98,7 @@ echo "Session id: " . session_id() . "<br>\n";
             mysqli_free_result($queryResult);
         }
         $assignedConferences = array();
-        $SQLstring = "SELECT ConferencesID FROM $TableName" . " WHERE dateApproved IS NOT NULL";
+        $SQLstring = "SELECT conferenceID FROM $TableName" . " WHERE dateApproved IS NOT NULL";
         $queryResult = mysqli_query($DBConnect, $SQLstring);
     if (mysqli_num_rows($queryResult) > 0) {
             while (($row = mysqli_fetch_row($queryResult)) != false) {
@@ -103,8 +107,8 @@ echo "Session id: " . session_id() . "<br>\n";
             mysqli_free_result($queryResult);
         }
     $TableName = "Conferences";
-    $Conferences = array();
-    $SQLstring = "SELECT ConferencesID, company, city," . " startDate, endDate, position, description" .
+    $opportunities = array();
+    $SQLstring = "SELECT conferenceID, company, city," . " event_date, event_end_date, position, description" .
         " FROM $TableName";
     $queryResult = mysqli_query($DBConnect , $SQLstring);
         if (mysqli_num_rows($queryResult) > 0) {
@@ -119,7 +123,7 @@ echo "Session id: " . session_id() . "<br>\n";
             mysqli_close($DBConnect);
     }
     if (!empty($lastRequestDate)) {
-        echo "<p>You last requested a client" . " Conference on $lastRequestDate.</p>\n";
+        echo "<p>You last requested an internship" . " opportunity on $lastRequestDate.</p>\n";
     }
     echo "<table border='1' width='100%'>\n";
     echo "<tr>\n";
@@ -131,24 +135,24 @@ echo "Session id: " . session_id() . "<br>\n";
     echo "<th style='background-color: cyan'>Description</th>\n";
     echo "<th style='background-color: cyan'>Status</th>\n";
     echo "</tr>\n";
-    foreach ($Conferences as $Conference) {
-        if (!in_array($Conference['ConferencesID'], $assignedConferences)) {
+    foreach ($Conferences as $conference) {
+        if (!in_array($opportunity['opportunityID'], $assignedOpportunities)) {
             echo "<tr>\n";
-            echo "<td>" . htmlentities($Conference['company']) . "</td>\n";
-            echo "<td>" . htmlentities($Conference['city']) . "</td>\n";
-            echo "<td>" . htmlentities($Conference['startDate']) . "</td>\n";
-            echo "<td>" . htmlentities($Conference['endDate']) . "</td>\n";
-            echo "<td>" . htmlentities($Conference['position']) . "</td>\n";
-            echo "<td>" . htmlentities($Conference['description']) . "</td>\n";
+            echo "<td>" . htmlentities($conference['company']) . "</td>\n";
+            echo "<td>" . htmlentities($conference['city']) . "</td>\n";
+            echo "<td>" . htmlentities($conference['startDate']) . "</td>\n";
+            echo "<td>" . htmlentities($conference['endDate']) . "</td>\n";
+            echo "<td>" . htmlentities($conference['position']) . "</td>\n";
+            echo "<td>" . htmlentities($conference['description']) . "</td>\n";
             echo "<td>\n";
-            if (in_array($Conference['ConferencesID'], $selectedConferences)) {
+            if (in_array($conference['conferenceID'], $selectedConferences)) {
                 echo "Selected";
             }
             else if($approvedConferences > 0) {
                 echo "Open";
             }
             else {
-                echo "<a href='SubmitInfo.php?" . "PHPSESSID=" . session_id() . "&ConferencesID=" . $Conference['ConferencesID'] . "'>Available</a>\n";
+                echo "<a href='submitInfo.php?" . "PHPSESSID=" . session_id() . "&opportunityID=" . $conference['conferenceID'] . "'>Available</a>\n";
             }
             echo "</td>\n";
             echo "</tr>\n";
@@ -157,6 +161,5 @@ echo "Session id: " . session_id() . "<br>\n";
     echo "</table>\n";
     echo "<p><a href='home.php'>Log Out</a></p>\n";
     ?>
-    //Available Opportunities
 </body>
 </html>

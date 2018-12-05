@@ -70,7 +70,7 @@ echo "Session id: " . session_id() . "<br>\n";
 //    echo "<input type='submit' name='submit' value='View Available Opportunities'>\n";
 //    echo "</form>\n";
     // echo "<p><a href='AvailableOpportunities.php?" . "clientID=$clientID'>Available Opportunities" . "</a></p>\n";
-    echo "<p><a href='CompanyInfo.php?" . "PHPSESSID=" . session_id() . "'>Company Info" . "</a></p>\n";
+    echo "<p><a href='SelectConference.php?" . "PHPSESSID=" . session_id() . "'>Select a Conference" . "</a></p>\n";
   }
   // indicates to go back to fix errors
   if ($errors > 0) {
