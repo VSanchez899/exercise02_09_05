@@ -43,6 +43,7 @@ echo "Session id: " . session_id() . "<br>\n";
   // this creates the table with the client info
   $TableName = "clients";
   if ($errors == 0) {
+    echo $_POST['company'];
     $SQLstring = "SELECT clientID, first, last" . " FROM $TableName" . " WHERE email='" . stripslashes($_POST['email']) . "' AND password_md5='" . md5(stripslashes($_POST['password'])) . "'";
     $queryResult = mysqli_query($DBConnect, $SQLstring);
     // how many rows are in the query result and if there are no rows returned then we will increment our error and indicate an error that the password and/or username combination is not correct

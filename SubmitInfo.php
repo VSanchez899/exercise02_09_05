@@ -3,15 +3,15 @@ session_start();
 $body = "";
 $errors = "0";
 $clientID = "0";
-// if (isset($_GET['internID'])) {
-//     $clientID = $_GET['internID'];
+// if (isset($_GET['clientID'])) {
+//     $clientID = $_GET['clientID'];
 // }
 if (!isset($_SESSION['clientID'])) {
     ++$errors;
     $body .= "<p>You have not logged in or registered</p>" . 
     " please return to the  " . 
     "<a href='home.php'>" . 
-    "Registration / Login Page</a></p>";
+    " Registration / Login Page</a></p>";
 }
 if ($errors == 0) {
     if (isset($_GET['conferenceID'])) {
@@ -53,11 +53,11 @@ $hostname = "localhost";
   $dbDate = date("Y-m-d H:i:s");
   $body .= "\$dbDate: $dbDate<br>";
   if ($errors == 0) {
-      $tableName = "assigned_opportunities";
+      $tableName = "assigned_conferences";
       $SQLstring = "INSERT INTO $tableName" . 
-      " (conferenceID, internID, dateSelected)" . 
+      " (conferenceID, clientID, date_selected)" . 
       " VALUES($conferenceID, " . 
-      $_SESSION['internID'] . ", '$dbDate')";
+      $_SESSION['clientID'] . ", '$dbDate')";
       $queryResult = mysqli_query($DBConnect, $SQLstring);
       if (!$queryResult) {
           ++$errors;
@@ -76,7 +76,7 @@ $hostname = "localhost";
     $body .= "<p>Closing database \"$DBName\" connection.</p>\n";
     mysqli_close($DBConnect);
   }
-  if ($_SESSION['internID'] > 0) {
+  if ($_SESSION['clientID'] > 0) {
       $body .= "<p>return to the " . 
       "<a href='SelectConference.php?" . 
       "PHPSESSID=" . session_id() . "'>Select Conference" . 
@@ -84,8 +84,8 @@ $hostname = "localhost";
   }
   else {
       $body .= "<p>Please" .
-      "<a href='InternLogin.php'>" .
-      "Register or Log in" . 
+      "<a href='home.php'>" .
+      " Register or Log in" . 
       "</a> to use this page.</p>\n";
   }
   if ($errors == 0) {
@@ -103,7 +103,7 @@ $hostname = "localhost";
 </head>
 <body>
     <h1>College Intern</h1>
-    <h2>Opportunity Requested</h2>
+    <h2>Conference Requested</h2>
     <?php
     echo $body;
     ?>

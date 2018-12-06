@@ -26,6 +26,10 @@ session_destroy();
             <input type="text" name="email">
         </p>
         <p style='text-align: center;'>
+            Enter a Company Name for your account:
+                <input type="text" name="company">
+        </p>
+        <p style='text-align: center;'>
             Enter a password for your account:
                 <input type="password" name="password">
         </p>

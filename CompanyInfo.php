@@ -85,9 +85,10 @@ session_start();
             if ($errors == 0) {
                 $first = stripslashes($_POST['first']);
                 $last = stripslashes($_POST['last']);
+                $company = stripslashes($_POST['company']);
                 $SQLstring = "INSERT INTO $TableName" .
-                " (first, last, email, password_md5)" .
-                " VALUES('$first', '$last', '$email', " . 
+                " (first, last, email, Company_name, password_md5,)" .
+                " VALUES('$first', '$last', '$email', '$company', " . 
                 "'" . md5($password) . "')";
                 $queryResult = mysqli_query($DBConnect, $SQLstring);
                 if (!$queryResult) {
