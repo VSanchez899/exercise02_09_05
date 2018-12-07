@@ -43,7 +43,6 @@ echo "Session id: " . session_id() . "<br>\n";
   // this creates the table with the client info
   $TableName = "clients";
   if ($errors == 0) {
-    echo $_POST['company'];
     $SQLstring = "SELECT clientID, first, last" . " FROM $TableName" . " WHERE email='" . stripslashes($_POST['email']) . "' AND password_md5='" . md5(stripslashes($_POST['password'])) . "'";
     $queryResult = mysqli_query($DBConnect, $SQLstring);
     // how many rows are in the query result and if there are no rows returned then we will increment our error and indicate an error that the password and/or username combination is not correct
@@ -71,6 +70,7 @@ echo "Session id: " . session_id() . "<br>\n";
 //    echo "<input type='submit' name='submit' value='View Available Opportunities'>\n";
 //    echo "</form>\n";
     // echo "<p><a href='AvailableOpportunities.php?" . "clientID=$clientID'>Available Opportunities" . "</a></p>\n";
+    echo "<p><a href='EditInfo.php?" . "PHPSESSID=" . session_id() . "'>Edit your Information" . "</a></p>\n";
     echo "<p><a href='SelectConference.php?" . "PHPSESSID=" . session_id() . "'>Select a Conference" . "</a></p>\n";
   }
   // indicates to go back to fix errors
