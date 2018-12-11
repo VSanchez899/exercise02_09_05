@@ -159,7 +159,8 @@ echo "Session id: " . session_id() . "<br>\n";
         }
     }
     echo "</table>\n";
-    echo "<p><a href='home.php'>Log Out</a></p>\n";
+    echo "<p style='text-align: center;'><a href='Done.php?" . "PHPSESSID=" . session_id() . "'>Next Page" . "</a></p>\n";
+    echo "<p style='text-align: center;'><a href='home.php'>Log Out</a></p>\n";
     ?>
 </body>
 </html>

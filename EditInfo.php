@@ -4,7 +4,7 @@ echo "Session id: " . session_id() . "<br>\n";
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background-color: turquoise;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,32 +12,6 @@ echo "Session id: " . session_id() . "<br>\n";
 </head>
 <body>
     <h1 style="text-align: center;">Want to Edit Anything?</h1>
-    <!-- <form action="EditInfo.php" method="post">
-    <p style='text-align: center;'>Enter your name: First
-            <input type="text" name="Efirst" value="">
-            Last:
-            <input type="text" name="Elast" value="">
-        </p>
-        <p style='text-align: center;'>
-            Enter your email address:
-            <input type="text" name="Eemail" value="">
-        </p>
-        <p style='text-align: center;'>
-            Enter a Company Name for your account:
-                <input type="text" name="Ecompany" value="">
-        </p>
-        <p style='text-align: center;'>
-            Enter a password for your account:
-                <input type="password" name="Epassword" value="">
-        </p>
-        <p style='text-align: center;'>
-            Confirm your password
-                <input type="password" name="Epassword2" value="">
-        </p>
-        <p style='text-align: center;'><em>(Passwords are case-sensitive and must be at least 6 charaters long.)</em></p>
-        <p style='text-align: center;'><input  style='text-align: center;' type="reset" name="reset" value="Reset Registration Form"></p>
-        <p style='text-align: center;'><input  type="submit" name="register" value="Register"></p>
-    </form> -->
     <?php
 //Connection to database
 $errors = 0;
@@ -72,22 +46,15 @@ $errors = 0;
     //new code to fetch old data
     $TableName = "clients";
   if ($errors == 0) {
-    $SQLstring = "SELECT clientID, email, first, last, Company_name" . " FROM $TableName";
-    $queryResult = mysqli_query($DBConnect, $SQLstring);
-    // how many rows are in the query result and if there are no rows returned then we will increment our error and indicate an error that the password and/or username combination is not correct
-    
-    // this tells it to get a row from the query result (clientID row and first/last name row)
-    if(!$queryResult) {
+    $SQLstrg = "SELECT clientID, email, first, last, Company_name" . " FROM $TableName";
+    $qResult = mysqli_query($DBConnect, $SQLstrg);
+
+    if(!$qResult) {
         ++$errors;
-    //   $row = mysqli_fetch_assoc($queryResult);
-    //   $_SESSION['clientID'] = $row['clientID'];
-    //   $clientName = $row['first'] . " " . $row['last'];
-    //   //Fetch rows from a result-set, then free the memory associated with the result
-    //   mysqli_free_result($queryResult);
-    //   echo "<p>Welcome back, $clientName!</p>\n";
     }
+
     if($errors == 0) {
-        $it = mysqli_fetch_assoc($queryResult);
+        $it = mysqli_fetch_assoc($qResult);
         if ($it["company"] = false) {
             $company = "N/A";
         }
@@ -96,36 +63,66 @@ $errors = 0;
         $email = $it['email'];
         $company = $it['company'];
         
+
+        //displays Information already in data base
+        echo"<p style='text-align: center; text-decoration: underline;'>First Name:</p>";
+        echo"<p style='text-align: center;'>$first</p>";
+        echo"<p style='text-align: center; text-decoration: underline;'>Last Name:</p>";
+        echo"<p style='text-align: center;'>$last</p>";
+        echo"<p style='text-align: center; text-decoration: underline;'>Email:</p>";
+        echo"<p style='text-align: center;'>$email</p>";
+        echo"<p style='text-align: center; text-decoration: underline;'>Company Name(if Given)</p>";
+        echo"<p style='text-align: center;'>$company</p>";
+        //Form that writes over previous data in data base if submitted
+
+        echo"<h2 style='text-align: center;'>Enter changes needed in the forum</h2>";
+
+        //form to change stuff
         echo"<form action='EditInfo.php' method='post'>";
-        echo"<p style='text-align: center;'>Enter your First Name: <br>";
+        echo"<p style='text-align: center; text-decoration: underline;'>Enter your First Name: <br>";
         echo"<input type='text' name='Efirst' value='$first'\n>";
-        echo"<p style='text-align: center;'>Enter your Last name: <br>";
+        echo"<p style='text-align: center; text-decoration: underline;'>Enter your Last name: <br>";
         echo"<input type='text' name='Elast' value='$last'\n>";
-        echo"<p style='text-align: center;'>Enter your Email: <br>";
+        echo"<p style='text-align: center; text-decoration: underline;'>Enter your Email: <br>";
         echo"<input type='text' name='Eemail' value='$email'\n>";
-        echo"<p style='text-align: center;'>Enter your Company Name: <br>";
+        echo"<p style='text-align: center; text-decoration: underline;'>Enter your Company Name: <br>";
         echo"<input type='text' name='Ecompany' value='$company'\n>";
         echo"<p style='text-align: center;'><input  type='submit' name='register' value='Change information'></p>";
         echo"</form>";
         
         }
   }
-  $first_new = $_POST['Efirst'];
-  $last_new = $_POST['Elast'];
-  $email_new = $_POST['Eemail'];
-  $company_new = $_POST['Ecompany'];
-
-
+  
   if (isset($_POST['Efirst'])) {
-      //
-      $SQLstring = "UPDATE 'Conferences' SET 'event_date' = '2019-03-26' WHERE 'Conferences'.'conferenceID' = 4;";
-  $SQLstring = "INSERT INTO $TableName" .
-                " (first, last, email, Company_name,)" .
-                " VALUES('$first_new', '$last_new', '$email_new', '$company_new',)";
-                $queryResult = mysqli_query($DBConnect, $SQLstring);
-}
-    //separate code
-    echo "<p><a href='Done.php?" . "PHPSESSID=" . session_id() . "'>No changes, Next Page" . "</a></p>\n";
+    $first_new = $_POST['Efirst'];
+    $last_new = $_POST['Elast'];
+    $email_new = $_POST['Eemail'];
+    $company_new = $_POST['Ecompany'];
+    //code for client ID
+    $TableName = "clients";
+    if ($errors == 0) {
+        $SQLstring = "SELECT clientID," . " FROM $TableName";
+        $queryResults = mysqli_query($DBConnect, $SQLstring);
+        
+        // if not found will generate error
+        if(!$queryResults) {
+            ++$errors;
+        }
+    
+        if($errors == 0) {
+            $info = mysqli_fetch_assoc($queryResults);
+            //set new variable for the sql string
+            $info_client = $info['clientID'];
+            //This updates the information
+            $SQLstrings = "UPDATE clients SET email = '$email_new', first = '$first_new', last = '$last_new', Company_name = '$company_new', WHERE clients . clientID = $info_client, ";
+            $qsResults = mysqli_query($DBConnect, $SQLstrings);
+        }
+    }
+  }
+
+    //Hyper links at the end of the file
+    echo "<h3 style='text-align: center;'>No Changes</h3>";
+    echo "<p style='text-align: center;'><a href='Done.php?" . "PHPSESSID=" . session_id() . "'>Next Page" . "</a></p>\n";
     echo "<p style='text-align: center;'><a href='home.php'>Log Out</a></p>\n";
     ?>
 </body>

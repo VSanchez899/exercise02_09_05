@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background-color: #C9D6EA;">
     <head>
         <title>Information</title>
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-        <h1>Information</h1>
+        <h1 style="text-align: center;">Information</h1>
     <?php
     //Connection to database
 $errors = 0;
@@ -60,14 +60,20 @@ if ($errors == 0) {
       $email = $it['email'];
       $company = $it['company'];
       
-      echo"$first";
-      echo"$last";
-      echo"$email";
-      echo"$company";
+        echo"<p style='text-align: center; text-decoration: underline;'>First Name:</p>";
+        echo"<p style='text-align: center;'>$first</p>";
+        echo"<p style='text-align: center; text-decoration: underline;'>Last Name:</p>";
+        echo"<p style='text-align: center;'>$last</p>";
+        echo"<p style='text-align: center; text-decoration: underline;'>Email:</p>";
+        echo"<p style='text-align: center;'>$email</p>";
+        echo"<p style='text-align: center; text-decoration: underline;'>Company Name(if Given)</p>";
+        echo"<p style='text-align: center;'>$company</p>";
       }
 }
 
-
+echo "<p style='text-align: center;'><a href='EditInfo.php?" . "PHPSESSID=" . session_id() . "'>Incorrect Information" . "</a></p>\n";
+echo "<p style='text-align: center;'><a href='SelectConference.php?" . "PHPSESSID=" . session_id() . "'>Select a Conference" . "</a></p>\n";
+echo "<p style='text-align: center;'><a href='home.php'>Log Out</a></p>\n";
 
     ?>
     </body>
