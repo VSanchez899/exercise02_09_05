@@ -87,9 +87,9 @@ session_start();
                 $last = stripslashes($_POST['last']);
                 $company = stripslashes($_POST['company']);
                 $SQLstring = "INSERT INTO $TableName" .
-                " (first, last, email, Company_name, password_md5,)" .
-                " VALUES('$first', '$last', '$email', '$company', " . 
-                "'" . md5($password) . "')";
+                " (first, last, email, Company_name, password_md5)" .
+                " VALUES('$first', '$last', '$email', '$company'," . 
+                "'" . md5($password) . "'" .")";
                 $queryResult = mysqli_query($DBConnect, $SQLstring);
                 if (!$queryResult) {
                     ++$errors;
@@ -108,7 +108,7 @@ session_start();
         }
         if ($DBConnect) {
             //setcookie("clientID", $clientID);
-            setcookie("clientID", $_SESSION['clientID']);
+            // setcookie("clientID", $_SESSION['clientID']);
             $body .= "<p style='text-align: center;'>closing Database \"$DBName\" connection.</p>\n";
             $body .= "<p><a href='SelectConference.php?" . "PHPSESSID=" . session_id() . "'>" . "View Conferences</a></p>\n";
             mysqli_close($DBConnect);

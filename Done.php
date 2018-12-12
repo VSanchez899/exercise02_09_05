@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en" style="background-color: #C9D6EA;">
     <head>
@@ -52,7 +55,7 @@ if ($errors == 0) {
   }
   if($errors == 0) {
       $it = mysqli_fetch_assoc($queryResult);
-      if ($it["company"] = false) {
+      if ($it["company"] = "") {
           $company = "N/A";
       }
       $first = $it['first'];
@@ -70,7 +73,10 @@ if ($errors == 0) {
         echo"<p style='text-align: center;'>$company</p>";
       }
 }
-
+if ($DBConnect) {
+    echo "<p>Closing database \"$DBName\" connection.</p>\n";
+    mysqli_close($DBConnect);    
+  }
 echo "<p style='text-align: center;'><a href='EditInfo.php?" . "PHPSESSID=" . session_id() . "'>Incorrect Information" . "</a></p>\n";
 echo "<p style='text-align: center;'><a href='SelectConference.php?" . "PHPSESSID=" . session_id() . "'>Select a Conference" . "</a></p>\n";
 echo "<p style='text-align: center;'><a href='home.php'>Log Out</a></p>\n";

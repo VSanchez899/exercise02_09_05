@@ -54,6 +54,8 @@ echo "Session id: " . session_id() . "<br>\n";
     else {
       $row = mysqli_fetch_assoc($queryResult);
       $_SESSION['clientID'] = $row['clientID'];
+      $_SESSION['first'] = $row['first'];
+      $_SESSION['first'] = $row['last'];
       $clientName = $row['first'] . " " . $row['last'];
       //Fetch rows from a result-set, then free the memory associated with the result
       mysqli_free_result($queryResult);
@@ -70,12 +72,14 @@ echo "Session id: " . session_id() . "<br>\n";
 //    echo "<input type='submit' name='submit' value='View Available Opportunities'>\n";
 //    echo "</form>\n";
     // echo "<p><a href='AvailableOpportunities.php?" . "clientID=$clientID'>Available Opportunities" . "</a></p>\n";
-    echo "<p><a href='EditInfo.php?" . "PHPSESSID=" . session_id() . "'>Edit your Information" . "</a></p>\n";
-    echo "<p><a href='SelectConference.php?" . "PHPSESSID=" . session_id() . "'>Select a Conference" . "</a></p>\n";
+    
   }
   // indicates to go back to fix errors
   if ($errors > 0) {
     echo "Please use your browser's BACK button to return to the form and fix the errors indicated.";
+  }if ($errors == 0) {
+  echo "<p><a href='EditInfo.php?" . "PHPSESSID=" . session_id() . "'>Edit your Information" . "</a></p>\n";
+  echo "<p><a href='SelectConference.php?" . "PHPSESSID=" . session_id() . "'>Select a Conference" . "</a></p>\n";
   }
   ?>
   //verify info

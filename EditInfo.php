@@ -1,6 +1,7 @@
 <?php
 session_start();
 echo "Session id: " . session_id() . "<br>\n";
+
 ?>
 
 <!DOCTYPE html>
@@ -58,13 +59,17 @@ $errors = 0;
         if ($it["company"] = false) {
             $company = "N/A";
         }
-        $first = $it['first'];
-        $last = $it['last'];
-        $email = $it['email'];
-        $company = $it['company'];
+        $first = $_SESSION['first'];
+        $last = $_SESSION['last'];
+        $email = $_SESSION['email'];
+        $company = $_SESSION['company'];
+        $client = $_SESSION['clientID'];
+
         
 
         //displays Information already in data base
+        echo"<p style='text-align: center; text-decoration: underline;'>Client Name:</p>";
+        echo"<p style='text-align: center;'>$client</p>";
         echo"<p style='text-align: center; text-decoration: underline;'>First Name:</p>";
         echo"<p style='text-align: center;'>$first</p>";
         echo"<p style='text-align: center; text-decoration: underline;'>Last Name:</p>";
@@ -78,47 +83,26 @@ $errors = 0;
         echo"<h2 style='text-align: center;'>Enter changes needed in the forum</h2>";
 
         //form to change stuff
-        echo"<form action='EditInfo.php' method='post'>";
+        echo"<form action='submitComplete.php' method='post'>";
         echo"<p style='text-align: center; text-decoration: underline;'>Enter your First Name: <br>";
-        echo"<input type='text' name='Efirst' value='$first'\n>";
+        echo"<input type='text' name='Efirst' value='' required\n>";
         echo"<p style='text-align: center; text-decoration: underline;'>Enter your Last name: <br>";
-        echo"<input type='text' name='Elast' value='$last'\n>";
+        echo"<input type='text' name='Elast' value='' required\n>";
         echo"<p style='text-align: center; text-decoration: underline;'>Enter your Email: <br>";
-        echo"<input type='text' name='Eemail' value='$email'\n>";
+        echo"<input type='text' name='Eemail' value='' required\n>";
         echo"<p style='text-align: center; text-decoration: underline;'>Enter your Company Name: <br>";
-        echo"<input type='text' name='Ecompany' value='$company'\n>";
+        echo"<input type='text' name='Ecompany' value='' required\n>";
         echo"<p style='text-align: center;'><input  type='submit' name='register' value='Change information'></p>";
         echo"</form>";
-        
         }
   }
   
-  if (isset($_POST['Efirst'])) {
-    $first_new = $_POST['Efirst'];
-    $last_new = $_POST['Elast'];
-    $email_new = $_POST['Eemail'];
-    $company_new = $_POST['Ecompany'];
-    //code for client ID
-    $TableName = "clients";
-    if ($errors == 0) {
-        $SQLstring = "SELECT clientID," . " FROM $TableName";
-        $queryResults = mysqli_query($DBConnect, $SQLstring);
-        
-        // if not found will generate error
-        if(!$queryResults) {
-            ++$errors;
-        }
-    
-        if($errors == 0) {
-            $info = mysqli_fetch_assoc($queryResults);
-            //set new variable for the sql string
-            $info_client = $info['clientID'];
-            //This updates the information
-            $SQLstrings = "UPDATE clients SET email = '$email_new', first = '$first_new', last = '$last_new', Company_name = '$company_new', WHERE clients . clientID = $info_client, ";
-            $qsResults = mysqli_query($DBConnect, $SQLstrings);
-        }
-    }
+  
+  if ($DBConnect) {
+    echo "<p>Closing database \"$DBName\" connection.</p>\n";
+    mysqli_close($DBConnect); 
   }
+
 
     //Hyper links at the end of the file
     echo "<h3 style='text-align: center;'>No Changes</h3>";
