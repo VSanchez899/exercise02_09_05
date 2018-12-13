@@ -43,7 +43,7 @@ echo "Session id: " . session_id() . "<br>\n";
   // this creates the table with the client info
   $TableName = "clients";
   if ($errors == 0) {
-    $SQLstring = "SELECT clientID, first, last" . " FROM $TableName" . " WHERE email='" . stripslashes($_POST['email']) . "' AND password_md5='" . md5(stripslashes($_POST['password'])) . "'";
+    $SQLstring = "SELECT clientID, first, last, email, Company_name" . " FROM $TableName" . " WHERE email='" . stripslashes($_POST['email']) . "' AND password_md5='" . md5(stripslashes($_POST['password'])) . "'";
     $queryResult = mysqli_query($DBConnect, $SQLstring);
     // how many rows are in the query result and if there are no rows returned then we will increment our error and indicate an error that the password and/or username combination is not correct
     if (mysqli_num_rows($queryResult) == 0) {
@@ -55,7 +55,9 @@ echo "Session id: " . session_id() . "<br>\n";
       $row = mysqli_fetch_assoc($queryResult);
       $_SESSION['clientID'] = $row['clientID'];
       $_SESSION['first'] = $row['first'];
-      $_SESSION['first'] = $row['last'];
+      $_SESSION['last'] = $row['last'];
+      $_SESSION['email'] = $row['email'];
+      $_SESSION['company'] = $row['Company_name'];
       $clientName = $row['first'] . " " . $row['last'];
       //Fetch rows from a result-set, then free the memory associated with the result
       mysqli_free_result($queryResult);

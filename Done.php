@@ -58,10 +58,10 @@ if ($errors == 0) {
       if ($it["company"] = "") {
           $company = "N/A";
       }
-      $first = $it['first'];
-      $last = $it['last'];
-      $email = $it['email'];
-      $company = $it['company'];
+      $first = $_SESSION['first'];
+      $last = $_SESSION['last'];
+      $email = $_SESSION['email'];
+      $company = $_SESSION['company'];
       
         echo"<p style='text-align: center; text-decoration: underline;'>First Name:</p>";
         echo"<p style='text-align: center;'>$first</p>";
@@ -74,7 +74,7 @@ if ($errors == 0) {
       }
 }
 if ($DBConnect) {
-    echo "<p>Closing database \"$DBName\" connection.</p>\n";
+    echo "<p style='text-align: center;'>Closing database \"$DBName\" connection.</p>\n";
     mysqli_close($DBConnect);    
   }
 echo "<p style='text-align: center;'><a href='EditInfo.php?" . "PHPSESSID=" . session_id() . "'>Incorrect Information" . "</a></p>\n";

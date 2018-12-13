@@ -61,8 +61,6 @@ echo "Session id: " . session_id() . "<br>\n";
         //
         
         //code for client ID
-            $SQLstring = "SELECT clientID FROM $TableName";
-            $queryResults = mysqli_query($DBConnect, $SQLstring);
                 $client = $_SESSION['clientID'];
             //This updates the information
             // $SQLstrings = "UPDATE clients SET email = '$email_new',
