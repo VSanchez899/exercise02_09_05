@@ -79,7 +79,7 @@ if ($DBConnect) {
   }
 echo "<p style='text-align: center;'><a href='EditInfo.php?" . "PHPSESSID=" . session_id() . "'>Incorrect Information" . "</a></p>\n";
 echo "<p style='text-align: center;'><a href='SelectConference.php?" . "PHPSESSID=" . session_id() . "'>Select a Conference" . "</a></p>\n";
-echo "<p style='text-align: center;'><a href='home.php'>Log Out</a></p>\n";
+echo "<p style='text-align: center;'><a href='Finished.php'>Done</a></p>\n";
 
     ?>
     </body>
